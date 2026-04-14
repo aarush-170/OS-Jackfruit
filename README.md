@@ -86,42 +86,42 @@ rm -rf rootfs-alpha rootfs-beta logs
 ## 3. Demo Screenshots
 
 ### Screenshot 1 — Multi-Container Supervision
-![Multi-container supervision](Screenshots/1_multi_container.png)
+![Multi-container supervision](Screenshots/screenshots1_multi_container.png)
 
 Two containers (`alpha` PID 28629, `beta` PID 28638) started and running under one supervisor process. A third container (`test`) was also started and reaped cleanly after exit.
 
 ### Screenshot 2 — Metadata Tracking (ps)
-![ps output](Screenshots/2_ps.png)
+![ps output](Screenshots/screenshots2_ps.png)
 
 Output of `engine ps` showing container IDs, host PIDs, states (`running`), and start timestamps. Also shows `engine run test` completing with exit code 0.
 
 ### Screenshot 3 — Bounded-Buffer Logging
-![Logging pipeline](Screenshots/3_logging.png)
+![Logging pipeline](Screenshots/screenshots3_logging.png)
 
 Two containers (`alpha`, `beta`) echo strings through the pipe → bounded buffer → consumer thread → log files. `cat logs/alpha.log` shows `one` and `cat logs/beta.log` shows `two`, confirming per-container log isolation and correct producer-consumer operation.
 
 ### Screenshot 4 — Soft-Limit Warning
-![Soft limit](Screenshots/4_soft_limit.png)
+![Soft limit](Screenshots/screenshots4_soft_limit.png)
 
 `dmesg` output showing the kernel monitor detecting container `mem1` (PID 32524) exceeding its soft limit (40 MiB). The module logs a `SOFT LIMIT` warning event with the container ID, PID, RSS, and limit values.
 
 ### Screenshot 5 — Hard-Limit Enforcement
-![Hard limit](Screenshots/5_hard_limit.png)
+![Hard limit](Screenshots/screenshots5_hard_limit.png)
 
 `engine ps` showing container `mem1` in state `hard_limit_killed` after the kernel module sent SIGKILL when RSS exceeded the hard limit (125829120 bytes / 120 MiB). The supervisor correctly classifies this as a hard-limit kill because `stop_requested` was not set.
 
 ### Screenshot 6 — CLI and IPC
-![CLI and IPC](Screenshots/6_cli_ipc.png)
+![CLI and IPC](Screenshots/screenshots6_cli_ipc.png)
 
 `engine run beta` blocking in the foreground until the container exits, then printing `DONE (Exit code: 0)`. Demonstrates the UNIX domain socket control channel working end-to-end.
 
 ### Screenshot 7 — Scheduling Experiment
-![Scheduling](Screenshots/7_scheduling.png)
+![Scheduling](Screenshots/screenshots7_scheduling.png)
 
 Two `cpu_hog` containers running concurrently with different nice values: PID 33335 at nice -5 (higher priority) consuming ~99.3% CPU, PID 33340 at nice +5 (lower priority) consuming ~97.4% CPU. The CFS scheduler gives more CPU time to the lower-nice process as expected.
 
 ### Screenshot 8 — Clean Teardown
-![Clean teardown](Screenshots/8_teardown.png)
+![Clean teardown](Screenshots/screenshots8_teardown.png)
 
 `ps -ef | grep defunct` returns no zombie processes after all containers have exited and the supervisor has reaped all children. The only match is the grep process itself, confirming no leaked zombies.
 
