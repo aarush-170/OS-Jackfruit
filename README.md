@@ -107,6 +107,7 @@ Two containers (`alpha`, `beta`) echo strings through the pipe → bounded buffe
 ![Soft limit](Screenshots/screenshots_4_soft_limit.png)
 
 `dmesg` output showing the kernel monitor detecting container `mem1` (PID 32524) exceeding its soft limit (40 MiB). The module logs a `SOFT LIMIT` warning event with the container ID, PID, RSS, and limit values.
+do check your linux's oom killer and adjust the commands for this part accordingly. thanks you !
 
 ### Screenshot 5 — Hard-Limit Enforcement
 ![Hard limit](Screenshots/screenshots_5_hard_limit.png)
