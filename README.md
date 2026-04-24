@@ -40,6 +40,9 @@ dmesg | tail                   # verify module loaded
 ### Prepare Root Filesystems
 
 ```bash
+mkdir rootfs-base
+wget https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-minirootfs-3.20.3-x86_64.tar.gz tar -xzf alpine-minirootfs-3.20.3-x86_64.tar.gz -C rootfs-base
+
 cp -a ./rootfs-base ./rootfs-alpha
 cp -a ./rootfs-base ./rootfs-beta
 
